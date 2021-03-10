@@ -57,10 +57,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:1.0.15'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation files('libs\\YouTubeAndroidPlayerApi.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.github.HendrixString:Android-PdfMyXml:v1.0.1'
+
 
     implementation 'me.relex:circleindicator:2.1.4'
 }

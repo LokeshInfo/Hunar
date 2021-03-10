@@ -27,6 +27,34 @@ public class NormalLogin {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("city")
+    @Expose
+    private String city;
+    @SerializedName("state")
+    @Expose
+    private String state;
+    @SerializedName("language_id")
+    @Expose
+    private String language_id;
+    @SerializedName("category_id")
+    @Expose
+    private String category_id;
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getLanguage_id() {
+        return language_id;
+    }
 
     public String getUserId() {
         return userId;

@@ -28,6 +28,8 @@
     <string name="msg_no_internet">No internet connection!!</string>
     <string name="no_category">category not available!!</string>
     <string name="no_data">data not found!!</string>
+    <string name="hindi">Hindi</string>
+    <string name="english">English</string>
 
     <string name="no_sub_category">sub category not available!!</string>
     <string name="no_enough_question">Not enough questions, to play level.</string>
@@ -55,12 +57,19 @@
     <string name="zero">0</string>
     <string name="loading">Loading…</string>
     <string name="bookmark_list">Bookmark List</string>
+    <string name="player_error">Error initializing YouTube player: %s</string>
+    <string name="seek_to">Jump To</string>
+    <string name="seek_to_hint">Seconds</string>
     <string name="level_not_available">Level not available</string>
     <string name="go_back">Go Back</string>
     <string name="login_with">Login / SignUp With</string>
     <string name="login">Login</string>
-    <string name="login_not">Hello, User</string>
+    <string name="login_not">Hello, Guest</string>
     <string name="signup">SignUp</string>
+    <string name="scity">Select City</string>
+    <string name="sstate">Select State</string>
+    <string name="scategory">Select Category</string>
+    <string name="slang">Select Language</string>
     <string name="signup_alert">you are not registered yet, please SignUp</string>
     <string name="invalid_pass">The password is invalid, please check your password</string>
     <string name="email_alert_1">Please enter email address</string>
@@ -77,6 +86,7 @@
     <string name="refer_share_msg_2">&#160;app. you can also earn coin by downloading app from below link and enter referral code while login-&#160; </string>
     <string name="msg_enough_coin">Not Enough Coins !!</string>
     <string name="coin_message">You don\'t have enough coins. You need at least 4 coins to use this lifeline. \n\nWatch a short video &amp; get free coins</string>
+    <string name="great_courses_foru">Here are some great courses for you</string>
 
     <string name="skip">Skip</string>
     <string name="msg_watch_video">Watch Now</string>
@@ -135,6 +145,8 @@
     <string name="signup_with">SignUp With Email</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="dob">Date of Birth</string>
+    <string name="cnfpassword">Confirm Password</string>
     <string name="password_valid">Password should be at least 6 characters</string>
     <string name="refer">Referral Code (optional)</string>
     <string name="forgot_pass">Forgot Password?</string>
@@ -148,6 +160,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms">Terms of Service</string>
     <string name="modulo_sign">%</string>
+    <string name="by_continuing">By continuing, you are agree with our <u>Terms &amp; Conditions</u></string>
 
     <!--Strings for battle-->
     <string name="matching_opponent">Matching Opponent</string>

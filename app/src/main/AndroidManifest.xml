@@ -40,6 +40,8 @@
         <activity
             android:name=".activity.CertificateActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.Youtube_Activity"
+            />
         <activity
             android:name=".activity.FavoriteActivity"
             android:label="My favourite"
@@ -49,7 +51,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

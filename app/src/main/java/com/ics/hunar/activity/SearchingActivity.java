@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -62,6 +63,7 @@ public class SearchingActivity extends AppCompatActivity implements Utils.OnLang
     private ApiInterface apiInterface;
     private Context context = SearchingActivity.this;
     private String userId = "";
+    private TextView tvlogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class SearchingActivity extends AppCompatActivity implements Utils.OnLang
         mAuth = FirebaseAuth.getInstance();
         apiInterface = ApiClient.getMainClient().create(ApiInterface.class);
         ibSearch = findViewById(R.id.ibSearch);
+        tvlogin = findViewById(R.id.mlogin);
         ibSearchBack = findViewById(R.id.ibBackSearch);
         etSearch = findViewById(R.id.etSearch);
         rvSearchCategory = findViewById(R.id.rvSearchCategory);
@@ -90,6 +93,12 @@ public class SearchingActivity extends AppCompatActivity implements Utils.OnLang
         rvSearchSubCategory.setHasFixedSize(true);
         rvSearchVideo.setLayoutManager(new LinearLayoutManager(this));
         rvSearchVideo.setHasFixedSize(true);
+
+        if (Session.isLogin(getApplicationContext())) {
+            tvlogin.setText("Logout");
+        } else {
+            tvlogin.setText("Login");
+        }
 
         ibSearchBack.setOnClickListener(v -> {
             startActivity(new Intent(SearchingActivity.this, MainActivity.class).putExtra("type", "privacy"));

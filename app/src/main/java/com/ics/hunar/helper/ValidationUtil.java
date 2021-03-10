@@ -1,7 +1,9 @@
 package com.ics.hunar.helper;
 
+import android.content.Context;
 import android.util.Patterns;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
@@ -180,14 +182,14 @@ public class ValidationUtil {
     }
 
 
-    public static boolean optionalEmailEditTextValidation(EditText editText) {
+    public static boolean optionalEmailEditTextValidation(Context cn, EditText editText) {
         boolean valid;
         if (!editText.getText().toString().trim().isEmpty()) {
             if (Pattern.matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", editText.getText().toString().trim())) {
                 valid = true;
             } else {
                 valid = false;
-                editText.setError("please enter valid email address");
+                Toast.makeText(cn, "** Incorrect Email...", Toast.LENGTH_SHORT).show();
                 editText.requestFocus();
             }
 

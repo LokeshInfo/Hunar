@@ -65,6 +65,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private List<VideoNew> videoAList;
     public static String fromQue;
     private FavoriteAdapter favoriteAdapter;
+    TextView tvlogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class FavoriteActivity extends AppCompatActivity {
         SharedPreferencesUtil.init(this);
         mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.rvFavoriteList);
+        tvlogin = findViewById(R.id.mlogin);
         tvError = findViewById(R.id.tvFavoriteError);
         swipeRefreshLayout = findViewById(R.id.srlFavorite);
         fromQue = getIntent().getStringExtra("fromQue");
@@ -83,6 +85,9 @@ public class FavoriteActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getVideoStatus(Session.getUserData(Session.USER_ID, FavoriteActivity.this));
         });
+
+        if (Session.isLogin(getApplicationContext())) {tvlogin.setText("Logout");}
+        else{ tvlogin.setText("Login");}
 
     }
 

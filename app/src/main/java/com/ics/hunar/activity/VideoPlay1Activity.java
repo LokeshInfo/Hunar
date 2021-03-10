@@ -29,6 +29,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.gson.Gson;
 import com.ics.hunar.Constant;
 import com.ics.hunar.R;
@@ -54,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class VideoPlay1Activity extends YouTubeBaseActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private static int levelNo = 1;
     //private AndExoPlayerView andExoPlayerView;
     private RecyclerView rvVideoList;
@@ -77,6 +81,7 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
     private ApiInterface apiInterface;
     private String userId;
     private Boolean resume_time = false, first_check = false;
+    private YouTubePlayerView youTubePlayerView;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -96,6 +101,7 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
             userId = SharedPreferencesUtil.read(SharedPreferencesUtil.USER_ID, "");
         }
 
+        youTubePlayerView = findViewById(R.id.youtubeplayer);
         videoView = findViewById(R.id.videoView);
         tvVideoFullName = findViewById(R.id.tvVideoFullName);
         srlVideoPlayerList = findViewById(R.id.srlVideoPlayerList);
@@ -111,8 +117,8 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
 //        andExoPlayerView.setSource(url);
 //        andExoPlayerView.setShowController(true);
         mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
+        //mediaController.setAnchorView(videoView);
+        //videoView.setMediaController(mediaController);
         videoAList = new ArrayList<>();
         srlVideoPlayerList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -127,8 +133,8 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
         //Set MediaController  to enable play, pause, forward, etc options.
         // getVideoStatus(SharedPreferencesUtil.read(SharedPreferencesUtil.USER_ID, ""));
         getVideoPlayer(levelNo, levelNo, Constant.SUB_CAT_ID);
-        videoView.setOnPreparedListener(this);
-        videoView.setOnCompletionListener(this);
+        //videoView.setOnPreparedListener(this);
+        //videoView.setOnCompletionListener(this);
         // fullScreen(true);
         ivBtnFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +148,8 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                 }
             }
         });
-        videoView.setOnTouchListener((v, event) -> {
+
+        /*videoView.setOnTouchListener((v, event) -> {
             if (ivBtnFullScreen.getVisibility() == View.GONE && tvVideoTitle.getVisibility() == View.GONE) {
                 ivBtnFullScreen.setVisibility(View.VISIBLE);
                 tvVideoTitle.setVisibility(View.VISIBLE);
@@ -154,7 +161,8 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                 removeHandler();
             }
             return false;
-        });
+        });*/
+
     }
 
     private void searchVideoPlay(int levelNo, int levelNo1, int subCatId, String url) {
@@ -175,10 +183,11 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                             videoAList = response.body().getVideoNewList();
                             for (int i = 0; i < videoAList.size(); i++) {
                                 if (videoId == Integer.parseInt(videoAList.get(i).getId()) && url.equals(videoAList.get(i).getVideo())) {
-                                    progressBar.setVisibility(View.VISIBLE);
+                                    //progressBar.setVisibility(View.VISIBLE);
                                     tvVideoTitle.setText(videoAList.get(i).getVideoName());
                                     tvVideoFullName.setText(videoAList.get(i).getVideoName());
-                                    videoView.setVideoURI(Uri.parse(videoAList.get(i).getVideo()));
+                                    //videoView.setVideoURI(Uri.parse(videoAList.get(i).getVideo()));
+                                    setVideouri(videoAList.get(i).getVideo());
                                     videoView.requestFocus();
                                     videoView.start();
                                     videoAList.get(i).setIsPlayed("1");
@@ -275,10 +284,11 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                 }
             }
             videoListPlayAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
             tvVideoTitle.setText(videoAList.get(position).getVideoName());
             tvVideoFullName.setText(videoAList.get(position).getVideoName());
-            videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+            //videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+            setVideouri(videoAList.get(position).getVideo());
             videoView.requestFocus();
             videoView.start();
         }
@@ -336,7 +346,7 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
         super.onResume();
         if (videoView != null) {
             if (!videoView.isPlaying()) {
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
                 videoView.seekTo(duration);
                 videoView.start();
             }
@@ -379,10 +389,11 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                                 position++;
                                 if (position < videoAList.size()) {
                                     if (videoAList.get(position).getIsUnlocked().equals("1")) {
-                                        progressBar.setVisibility(View.VISIBLE);
+                                        //progressBar.setVisibility(View.VISIBLE);
                                         tvVideoTitle.setText(videoAList.get(position).getVideoName());
                                         tvVideoFullName.setText(videoAList.get(position).getVideoName());
-                                        videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                                        //videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                                        setVideouri(videoAList.get(position).getVideo());
                                         videoView.requestFocus();
                                         videoView.start();
                                         for (int i = 0; i < videoAList.size(); i++) {
@@ -402,10 +413,11 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                             }, v -> {
                                 position--;
                                 if (position != -1 && position < videoAList.size()) {
-                                    progressBar.setVisibility(View.VISIBLE);
+                                    //progressBar.setVisibility(View.VISIBLE);
                                     tvVideoTitle.setText(videoAList.get(position).getVideoName());
                                     tvVideoFullName.setText(videoAList.get(position).getVideoName());
-                                    videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                                    //videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                                    setVideouri(videoAList.get(position).getVideo());
                                     videoView.requestFocus();
                                     videoView.start();
                                     for (int i = 0; i < videoAList.size(); i++) {
@@ -420,10 +432,11 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                                     Toast.makeText(VideoPlay1Activity.this, "not found", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            progressBar.setVisibility(View.VISIBLE);
+                            //progressBar.setVisibility(View.VISIBLE);
                             tvVideoTitle.setText(videoAList.get(position).getVideoName());
                             tvVideoFullName.setText(videoAList.get(position).getVideoName());
-                            videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                            //videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                            setVideouri(videoAList.get(position).getVideo());
                             videoId = Integer.parseInt(videoAList.get(position).getId());
                             videoView.requestFocus();
                             videoView.start();
@@ -431,7 +444,7 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                             videoAList.get(position).setIsUnlocked("1");
                             videoListPlayAdapter = new VideoListPlayAdapter(VideoPlay1Activity.this, videoAList);
                             rvVideoList.setAdapter(videoListPlayAdapter);
-
+                    
                         } else {
                             tvVideoPlayerListError.setVisibility(View.VISIBLE);
                             tvVideoPlayerListError.setText("not found");
@@ -480,19 +493,22 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
             } else {
                 holder.tvVideoName.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             }
+
             if (videoNew.getIsUnlocked().equals("1")) {
                 holder.ivVideoLock.setImageResource(R.drawable.ic_open_padlock);
             } else {
                 holder.ivVideoLock.setImageResource(R.drawable.ic_padlock);
             }
+
             holder.itemView.setOnClickListener(v -> {
                 if (videoNew.getIsUnlocked().equals("1")) {
                     VideoPlay1Activity.this.position = position;
                     VideoPlay1Activity.this.videoId = Integer.parseInt(videoAList.get(position).getId());
-                    progressBar.setVisibility(View.VISIBLE);
+                    //progressBar.setVisibility(View.VISIBLE);
                     tvVideoTitle.setText(videoAList.get(position).getVideoName());
                     tvVideoFullName.setText(videoAList.get(position).getVideoName());
-                    videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                   // videoView.setVideoURI(Uri.parse(videoAList.get(position).getVideo()));
+                    setVideouri(videoAList.get(position).getVideo());
                     videoView.requestFocus();
                     videoView.start();
                     for (int i = 0; i < videoAList.size(); i++) {
@@ -723,6 +739,104 @@ public class VideoPlay1Activity extends AppCompatActivity implements MediaPlayer
                 Toast.makeText(VideoPlay1Activity.this, "Resume Time, Not Saved...", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setVideouri(String uri){
+        //Toast.makeText(this, ""+uri, Toast.LENGTH_SHORT).show();
+        youTubePlayerView.initialize("AIzaSyB-UWlnAyNBLzgNEktI4SDxSySyeAixUVM", new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                youTubePlayer.cueVideo(uri);
+
+                youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(String s) {
+                        youTubePlayer.play();
+                    }
+
+                    @Override
+                    public void onAdStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoStarted() {
+                        if (getIntent().getStringExtra("SEEK_TO")!=null && !first_check) {
+                            youTubePlayer.seekToMillis(Integer.parseInt(getIntent().getStringExtra("SEEK_TO")));
+                            first_check = true;
+                        }
+                    }
+
+                    @Override
+                    public void onVideoEnded() {
+                        if (videoAList != null) {
+                            position++;
+                            if (position == videoAList.size()) {
+                                position = 0;
+                            }
+                            unlockVideoWithApi(videoAList.get(position).getId());
+                            for (int i = 0; i < videoAList.size(); i++) {
+                                if (i == position) {
+                                    videoAList.get(i).setIsPlayed("1");
+                                    videoAList.get(i).setIsUnlocked("1");
+                                } else {
+                                    videoAList.get(i).setIsPlayed("0");
+                                }
+                            }
+                            videoListPlayAdapter.notifyDataSetChanged();
+                            tvVideoTitle.setText(videoAList.get(position).getVideoName());
+                            tvVideoFullName.setText(videoAList.get(position).getVideoName());
+                            //setVideouri(videoAList.get(position).getVideo());
+                            youTubePlayer.cueVideo(videoAList.get(position).getVideo());
+                        }
+                    }
+
+                    @Override
+                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                    }
+                });
+
+                youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+                    @Override
+                    public void onPlaying() {
+
+                    }
+
+                    @Override
+                    public void onPaused() {
+
+                    }
+
+                    @Override
+                    public void onStopped() {
+
+                    }
+
+                    @Override
+                    public void onBuffering(boolean b) {
+
+                    }
+
+                    @Override
+                    public void onSeekTo(int i) {
+                    }
+                });
+
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                String error = String.format(getString(R.string.player_error), youTubeInitializationResult.toString());
+                Toast.makeText(VideoPlay1Activity.this, error, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 }

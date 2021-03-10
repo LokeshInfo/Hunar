@@ -54,6 +54,7 @@ import com.google.gson.Gson;
 import com.ics.hunar.Constant;
 import com.ics.hunar.R;
 import com.ics.hunar.adpter.BannerViewPagerAdapter;
+import com.ics.hunar.adpter.Categorized_FeaturesAdapter;
 import com.ics.hunar.adpter.FeaturesAdapter;
 import com.ics.hunar.adpter.Resume_Video_Adapter;
 import com.ics.hunar.helper.AlertDialogUtil;
@@ -67,6 +68,7 @@ import com.ics.hunar.helper.SharedPreferencesUtil;
 import com.ics.hunar.helper.Utils;
 import com.ics.hunar.model.BannerResponse;
 import com.ics.hunar.model.Resume_List_Model;
+import com.ics.hunar.model.features.Featured_Courses_Response;
 import com.ics.hunar.model.features.FeaturesResponse;
 
 import org.json.JSONException;
@@ -95,7 +97,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     public LinearLayout bottomLyt;
     public LinearLayout lytMidScreen;
     public String status = "0";
-    public TextView tvAlert, tvBattle, tvPlay;
+    public TextView tvAlert, tvBattle, tvPlay, tvlogin;
     public Toolbar toolbar;
     private RecyclerView rvHomeFeature, rvHomeResumeHistory, rvHomeTrending1, rvHomeTrending2;
     private ViewPager vpBanner;
@@ -107,7 +109,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     private ProgressBar pbViewPager, pbFeatures;
     private Button btnRetry, btnFeaturesRetry;
     private ScrollView svHome;
-    private TextView tvFeatureHeading, tvResumeHeading, tvTrending1Heading, tvTrending2Heading;
+    private TextView tvFeatureHeading, tvResumeHeading, tvTrending1Heading, tvTrending2Heading, tvusername;
 
     @SuppressLint("NewApi")
     @Override
@@ -123,10 +125,13 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         rvHomeFeature = findViewById(R.id.rvHomeFeature);
         rvHomeResumeHistory = findViewById(R.id.rvHomeResumeHistory);
         rvHomeTrending1 = findViewById(R.id.rvHomeTrending1);
+        tvlogin = findViewById(R.id.mlogin);
+        tvusername = findViewById(R.id.tvusername);
         rvHomeTrending2 = findViewById(R.id.rvHomeTrending2);
         tvFeatureHeading = findViewById(R.id.tvFeatureHeading);
         tvResumeHeading = findViewById(R.id.tvResumeHeading);
         tvTrending1Heading = findViewById(R.id.tvTrending1Heading);
+        tvTrending2Heading = findViewById(R.id.tvTrending2Heading);
         tvTrending2Heading = findViewById(R.id.tvTrending2Heading);
         svHome = findViewById(R.id.svHome);
         vpBanner = findViewById(R.id.vpBanner);
@@ -144,6 +149,18 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         rvHomeTrending1.setHasFixedSize(true);
         rvHomeTrending2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvHomeTrending2.setHasFixedSize(true);
+
+        if (Session.isLogin(getApplicationContext())) {
+            tvusername.setText(getString(R.string.hello) + Session.getUserData(Session.NAME, MainActivity.this));
+            tvlogin.setText("Logout");
+        } else {
+            tvusername.setText(getString(R.string.login_not));
+            tvlogin.setText("Login");
+        }
+
+        tvusername.setOnClickListener(v->{
+            startActivity(new Intent(this, Youtube_Activity.class));
+        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -202,7 +219,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
         navigationView.getMenu().getItem(3).setActionView(R.layout.cart_count_layout);
         NavigationCartCount();
 
-//        if (Utils.isNetworkAvailable(MainActivity.this)) {
+        //        if (Utils.isNetworkAvailable(MainActivity.this)) {
 //            if (Session.getBoolean(Session.LANG_MODE, getApplicationContext()))
 //                LanguageDialog(MainActivity.this);
 //            if (Session.isLogin(getApplicationContext())) {
@@ -213,20 +230,57 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
 //            }
 
         //}
+
         btnRetry.setOnClickListener(v -> getBanner());
 
         if (!Session.isLogin(MainActivity.this)) {
+            // Not Logged In
+            getFeatures();
             tvResumeHeading.setVisibility(View.GONE);
             rvHomeResumeHistory.setVisibility(View.GONE);
         } else {
+            // Logged In
+            getcategory_features();
             get_resumed_video();
         }
 
         btnFeaturesRetry.setOnClickListener(v -> getFeatures());
         if (SharedPreferencesUtil.read(SharedPreferencesUtil.STATUS, false)) {
-            getFeatures();
+            getBanner();
         }
-        getBanner();
+    }
+
+    private void getcategory_features(){
+
+        pbFeatures.setVisibility(View.VISIBLE);
+
+        Log.e(" PARAMs "," getcategorized_features category id"+SharedPreferencesUtil.read(SharedPreferencesUtil.CATEGORY_ID,"")+
+                "Language ID "+Session.getCurrentLanguage(MainActivity.this));
+
+        ApiClient.getApiService().getcategorized_features(Constant.accessKeyValue,
+            SharedPreferencesUtil.read(SharedPreferencesUtil.CATEGORY_ID, ""),"1",
+            Session.getCurrentLanguage(MainActivity.this))
+            .enqueue(new Callback<Featured_Courses_Response>() {
+                @Override
+                public void onResponse(Call<Featured_Courses_Response> call, retrofit2.Response<Featured_Courses_Response> response) {
+                    pbFeatures.setVisibility(View.GONE);
+                    Utils.retro_call_info(""+response.raw().request().url()+"getcategorized_features",""+new Gson().toJson(response.body()));
+                    if (response.isSuccessful()){
+                        if (response.body().error.equals("false")){
+                            tvFeatureHeading.setText("Your Selected Category is ");
+                            rvHomeFeature.setAdapter(new Categorized_FeaturesAdapter(MainActivity.this,response.body().data));
+                        }else{
+                            tvFeatureHeading.setText("No Featured Data Found");
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Featured_Courses_Response> call, Throwable t) {
+                    pbFeatures.setVisibility(View.GONE);
+                    Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     private void getFeatures() {
@@ -300,7 +354,7 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     private void getBanner() {
         btnRetry.setVisibility(View.GONE);
         pbViewPager.setVisibility(View.VISIBLE);
-        apiInterface.getBanner("6808", "1").enqueue(new Callback<BannerResponse>() {
+        apiInterface.getBanner("6808", "1", Session.getCurrentLanguage(MainActivity.this)).enqueue(new Callback<BannerResponse>() {
             @Override
             public void onResponse(Call<BannerResponse> call, retrofit2.Response<BannerResponse> response) {
                 pbViewPager.setVisibility(View.GONE);
@@ -614,7 +668,11 @@ public class MainActivity extends DrawerActivity implements View.OnClickListener
     @Override
     public void onLangChange(boolean change) {
         if (change) {
+            if (!Session.isLogin(MainActivity.this))
             getFeatures();
+            else
+                getcategory_features();
+            getBanner();
             SharedPreferencesUtil.write(SharedPreferencesUtil.STATUS, true);
         }
     }

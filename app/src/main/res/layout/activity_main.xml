@@ -63,15 +63,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/vpBanner" />
 
+        <TextView
+            android:id="@+id/tvusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello, Guest"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="4dp"
+            />
+
+        <TextView
+            android:id="@+id/tvcourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/great_courses_foru"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:paddingTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvusername"
+            />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vpBanner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/light_gray"
+            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toTopOf="@id/clHomeRV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvcourses"
             app:layout_constraintVertical_weight="1" />
 
         <me.relex.circleindicator.CircleIndicator
@@ -136,7 +165,6 @@
                 android:id="@+id/svHome"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -354,6 +382,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clHomeRV">
 
+
+
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -362,7 +392,22 @@
                 android:gravity="center"
                 android:onClick="Searching"
                 android:padding="@dimen/margin_10dp"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_baseline_search" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_baseline_search"
+                android:paddingTop="5dp"
+                android:paddingBottom="4dp"
+                android:text="Search"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:onClick="Searching"
+                />
 
             <ImageView
                 android:layout_width="0dp"
@@ -372,7 +417,26 @@
                 android:gravity="center"
                 android:onClick="Settings"
                 android:padding="@dimen/margin_10dp"
-                app:srcCompat="@drawable/ic_heart_line" />
+                app:srcCompat="@drawable/ic_heart_line"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_heart_line"
+                android:drawablePadding="4dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="4dp"
+                android:text="Favorite"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:onClick="Settings"
+                />
+
+
 
 
             <LinearLayout
@@ -388,8 +452,24 @@
                 android:gravity="center"
                 android:onClick="UserProfile"
                 android:padding="@dimen/margin_10dp"
-                app:srcCompat="@drawable/user" />
+                app:srcCompat="@drawable/user"
+                android:visibility="gone"
+                />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/user"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:drawablePadding="6dp"
+                android:text="User"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:onClick="UserProfile"
+                />
 
             <ImageView
                 android:id="@+id/imgLogout"
@@ -399,8 +479,25 @@
                 android:layout_weight="1"
                 android:onClick="logOut"
                 android:padding="@dimen/margin_10dp"
-                app:srcCompat="@drawable/login" />
+                app:srcCompat="@drawable/login"
+                android:visibility="gone"
+                />
 
+            <TextView
+                android:id="@+id/mlogin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/login"
+                android:drawablePadding="6dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:text="Login"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:onClick="logOut"
+                />
 
         </LinearLayout>
 
@@ -427,6 +524,21 @@
                 android:padding="@dimen/margin_dp"
                 app:srcCompat="@drawable/ic_start" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:text="Category"
+            android:gravity="center"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

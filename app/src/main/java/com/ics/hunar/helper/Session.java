@@ -91,7 +91,6 @@ public class Session {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(LANGUAGE, value);
         editor.apply();
-
     }
 
     //this method will fetch the device token from shared preferences

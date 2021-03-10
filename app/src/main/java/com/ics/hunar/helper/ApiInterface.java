@@ -3,14 +3,18 @@ package com.ics.hunar.helper;
 import com.ics.hunar.model.BannerResponse;
 import com.ics.hunar.model.CheckOTPResponse;
 import com.ics.hunar.model.FavoriteResponse;
+import com.ics.hunar.model.Get_CatLang_Response;
+import com.ics.hunar.model.Language_Response;
 import com.ics.hunar.model.NormalLoginResponse;
 import com.ics.hunar.model.NormalSignUpResponse;
 import com.ics.hunar.model.PasswordUpdateResponse;
 import com.ics.hunar.model.Resume_List_Model;
 import com.ics.hunar.model.SendOtpResponse;
+import com.ics.hunar.model.Splash_Response;
 import com.ics.hunar.model.UnlockStatusResponse;
 import com.ics.hunar.model.VideoNewResponse;
 import com.ics.hunar.model.VideoStatusResponse;
+import com.ics.hunar.model.features.Featured_Courses_Response;
 import com.ics.hunar.model.features.FeaturesResponse;
 import com.ics.hunar.model.searching.SearchingResponse;
 
@@ -47,11 +51,23 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("./")
-    Call<NormalSignUpResponse> normalSignUpResponse(@Field("access_key") String access_key, @Field("normal_user_signup") String normal_user_signup, @Field("name") String name, @Field("email") String email, @Field("mobile") String mobile, @Field("password") String password, @Field("otp") String otp);
+    Call<NormalSignUpResponse> normalSignUpResponse(@Field("access_key") String access_key,
+                                                    @Field("normal_user_signup") String normal_user_signup,
+                                                    @Field("name") String name,
+                                                    @Field("email") String email,
+                                                    @Field("mobile") String mobile,
+                                                    @Field("password") String password,
+                                                    @Field("otp") String otp,
+                                                    @Field("dob") String dob,
+                                                    @Field("language_id") String language_id,
+                                                    @Field("category_id") String category_id,
+                                                    @Field("city") String city,
+                                                    @Field("state") String state   );
 
     @FormUrlEncoded
     @POST("./")
-    Call<NormalLoginResponse> normalLoginResponse(@Field("access_key") String access_key, @Field("normal_user_login") String normal_user_login, @Field("email_or_number") String email_or_number, @Field("password") String password);
+    Call<NormalLoginResponse> normalLoginResponse(@Field("access_key") String access_key, @Field("normal_user_login") String normal_user_login,
+                                                  @Field("email_or_number") String email_or_number, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("./")
@@ -71,11 +87,20 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("./")
-    Call<BannerResponse> getBanner(@Field("access_key") String access_key, @Field("get_banners") String get_banners);
+    Call<BannerResponse> getBanner(@Field("access_key") String access_key, @Field("get_banners") String get_banners, @Field("language_id") String language_id);
 
     @FormUrlEncoded
     @POST("./")
     Call<FeaturesResponse> getFeatures(@Field("access_key") String access_key, @Field("get_featured") String get_featured, @Field("language_id") String language_id);
+
+    @FormUrlEncoded
+    @POST("./")
+    Call<Featured_Courses_Response> getcategorized_features(
+            @Field("access_key") String access_key,
+            @Field("category_id") String categoryid,
+            @Field("hunar_courses_featured") String hunar_courses_featured,
+            @Field("language_id") String language_id
+    );
 
     @FormUrlEncoded
     @POST("./")
@@ -95,6 +120,27 @@ public interface ApiInterface {
             @Field("get_currently_playing_video") String get_currently_playing_video,
             @Field("user_id") String user_id,
             @Field("video_id") String video_id
+    );
+
+    @FormUrlEncoded
+    @POST("./")
+    Call<Language_Response> get_languages(
+            @Field("access_key") String access_key,
+            @Field("get_languages") String get_languages
+    );
+    @FormUrlEncoded
+    @POST("./")
+    Call<Get_CatLang_Response> get_cat_languages(
+            @Field("access_key") String access_key,
+            @Field("get_categories_by_language") String get_clanguages,
+            @Field("language_id") String language_id
+    );
+
+    @FormUrlEncoded
+    @POST("./")
+    Call<Splash_Response> get_splash(
+            @Field("access_key") String access_key,
+            @Field("get_app_logos_detail") String get_app_logos_detail
     );
 
 

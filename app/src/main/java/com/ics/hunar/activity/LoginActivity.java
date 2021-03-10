@@ -62,6 +62,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.ics.hunar.Constant;
 import com.ics.hunar.R;
 import com.ics.hunar.helper.AlertDialogUtil;
@@ -565,6 +566,7 @@ public class LoginActivity extends AppCompatActivity {
         apiInterface.normalLoginResponse("6808", "1", emailOrMobile, password).enqueue(new Callback<NormalLoginResponse>() {
             @Override
             public void onResponse(Call<NormalLoginResponse> call, retrofit2.Response<NormalLoginResponse> response) {
+                Utils.retro_call_info(""+response.raw().request().url(),""+new Gson().toJson(response.body()));
                 hideProgressDialog();
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
@@ -580,6 +582,11 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferencesUtil.write(SharedPreferencesUtil.USER_EMAIL, response.body().getNormalLogin().getEmail());
                             SharedPreferencesUtil.write(SharedPreferencesUtil.MOBILE_NUMBER, response.body().getNormalLogin().getMobile());
                             SharedPreferencesUtil.write(SharedPreferencesUtil.PROFILE, response.body().getNormalLogin().getProfile());
+                            SharedPreferencesUtil.write(SharedPreferencesUtil.CATEGORY_ID, response.body().getNormalLogin().getCategory_id());
+
+                            if (!response.body().getNormalLogin().getLanguage_id().matches(""))
+                            Session.setCurrentLanguage(response.body().getNormalLogin().getLanguage_id(),LoginActivity.this);
+
                             startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("type", "normal"));
                             finish();
                         } else {

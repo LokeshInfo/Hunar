@@ -105,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
     long totalSize = 0;
     private FirebaseAuth mAuth;
     public FloatingActionButton fabProfile;
-    public TextView tvEmailId, tvUpdate, tvLogout;
+    public TextView tvEmailId, tvUpdate, tvLogout,tvlogin;
     public AudienceProgress progress;
     public LinearLayout edtNameLayout, edtMobileLayout;
     public EditText edtName, edtMobile;
@@ -120,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         SharedPreferencesUtil.init(this);
         mAuth = FirebaseAuth.getInstance();
+        tvlogin = findViewById(R.id.mlogin);
         mainLayout = findViewById(R.id.mainLayout);
         toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
@@ -147,6 +148,12 @@ public class ProfileActivity extends AppCompatActivity {
                 SelectProfileImage();
             }
         });
+        if (Session.isLogin(getApplicationContext())) {
+            tvlogin.setText("Logout");
+        } else {
+            tvlogin.setText("Login");
+        }
+
 
         tvLogout.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_logout, 0, 0, 0);
         edtName.setText(Session.getUserData(Session.NAME, ProfileActivity.this));

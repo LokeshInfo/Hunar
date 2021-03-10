@@ -18,6 +18,7 @@ public class SharedPreferencesUtil {
     public static final String OTP_USER_ID = "otp_user_id";
     public static final String SUB_CATEGORY_NAME = "sub_category_name";
     public static final String LAST_PLAY_VIDEO = "last_play_video";
+    public static final String CATEGORY_ID = "categoryid";
     public static final String FB_ID = "fb_id";
     public static final String STATUS = "status";
 
@@ -25,7 +26,6 @@ public class SharedPreferencesUtil {
         if (mSharedPref == null)
             mSharedPref = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
     }
-
 
     public static String getDeviceId() {
         return FirebaseInstanceId.getInstance().getToken();

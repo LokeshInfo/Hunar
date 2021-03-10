@@ -122,8 +122,24 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <TextView
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        android:layout_marginEnd="@dimen/margin_10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/right_btn_bg"
+                        android:gravity="center"
+                        android:onClick="LoginWithEmailOrMobile"
+                        android:padding="7dp"
+                        android:text="@string/login"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/mid_text"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10dp"
@@ -139,22 +155,6 @@
                         android:textSize="@dimen/mid_text"
                         android:textStyle="bold" />
 
-                    <TextView
-
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_10dp"
-                        android:layout_marginEnd="@dimen/margin_10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/right_btn_bg"
-                        android:gravity="center"
-                        android:onClick="LoginWithEmailOrMobile"
-                        android:padding="7dp"
-                        android:text="@string/login"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/mid_text"
-                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

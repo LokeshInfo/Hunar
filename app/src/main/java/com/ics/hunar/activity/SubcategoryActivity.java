@@ -106,7 +106,6 @@ public class SubcategoryActivity extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         try {
-
                             JSONObject jsonObject = new JSONObject(response);
                             boolean error = jsonObject.getBoolean(Constant.ERROR);
 
